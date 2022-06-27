@@ -15,6 +15,7 @@
 *.zip
 *.tar.gz
 *.rar
+*.xml
 hs_err_pid*
 *~
 .fuse_hidden*
