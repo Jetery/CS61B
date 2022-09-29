@@ -37,7 +37,7 @@ public class NBody {
     }
 
     public static void main(String[] args) {
-        args = new String[] {"20000000", "20000", "./data/3body.txt"};
+        //args = new String[] {"20000000", "20000", "./data/3body.txt"};
         double T = Double.parseDouble(args[0]);
         double dt = Double.parseDouble(args[1]);
         String filename = args[2];
