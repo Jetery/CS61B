@@ -5,6 +5,7 @@
  *  Writes data of various types to standard output.
  *
  *************************************************************************/
+package examples;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -21,6 +22,7 @@ import java.util.Locale;
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
+
 public final class StdOut {
 
     // force Unicode UTF-8 encoding; otherwise it's system dependent
