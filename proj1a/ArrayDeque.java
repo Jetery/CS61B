@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 /**
  * Created with IntelliJ IDEA
  * Description:
@@ -16,6 +14,11 @@ public class ArrayDeque<T> implements Deque {
 
     public ArrayDeque() {
         this.array = (T[]) new Object[8];
+    }
+
+    public ArrayDeque(ArrayDeque other) {
+        this.array = (T[]) new Object[other.array.length];
+        revise((T[])other.array, array);
     }
 
     @Override
@@ -45,7 +48,7 @@ public class ArrayDeque<T> implements Deque {
     }
 
     private void revise(T[] array, T[] newArray) {
-        if (head < tail) {
+        if (head <= tail) {
             System.arraycopy(array, head, newArray, 0, tail - head + 1);
         } else {
             System.arraycopy(array, head, newArray, 0, size - head + 1);
