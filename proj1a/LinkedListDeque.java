@@ -113,6 +113,7 @@ public class LinkedListDeque<T> implements Deque {
         T ret = tail.val;
         this.tail = tail.pre;
         this.tail.next.pre = null;
+        this.size--;
         return ret;
     }
 
