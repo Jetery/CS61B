@@ -4,7 +4,8 @@
  * User: JeffRay
  * Date: 2022.10.18
  */
-public class ArrayDeque<T> implements Deque {
+public class ArrayDeque<T>{
+
     // treat my array as circular
     private T[] array;
     private int head;
@@ -21,45 +22,59 @@ public class ArrayDeque<T> implements Deque {
         revise((T[])other.array, array);
     }
 
-    @Override
-    public void addFirst(Object item) {
+
+    public void addFirst(T item) {
         if (isFull()) {
             array = arrayExpansion(array);
+        }
+        if (isEmpty()) {
+            firstTime(item);
+            size++;
+            return;
         }
         head = (head + array.length - 1) % array.length;
         array[head] = (T) item;
         size++;
     }
 
-    @Override
-    public void addLast(Object item) {
+    public void addLast(T item) {
         if (isFull()) {
             array = arrayExpansion(array);
+        }
+        if (isEmpty()) {
+            firstTime(item);
+            size++;
+            return;
         }
         tail = (tail + 1) % array.length;
         array[tail] = (T) item;
         size++;
     }
 
-    private T[] arrayExpansion(T[] array) {
-        T[] expansion = (T[]) new Object[(int) (size * 1.5)];
-        revise((T[]) array, (T[]) expansion);
-        return expansion;
+    private void firstTime(Object item) {
+        array[0] = (T) item;
+        head = 0;
+        tail = 0;
     }
 
-    private void revise(T[] array, T[] newArray) {
+    private T[] arrayExpansion(T[] array) {
+        T[] expansion = (T[]) new Object[(int) (size * 1.5)];
+        array = revise((T[]) array, (T[]) expansion);
+        return array;
+    }
+
+    private T[] revise(T[] array, T[] newArray) {
         if (head <= tail) {
             System.arraycopy(array, head, newArray, 0, tail - head + 1);
         } else {
-            System.arraycopy(array, head, newArray, 0, size - head + 1);
-            System.arraycopy(array, 0, newArray, size - head + 2, tail);
+            System.arraycopy(array, head, newArray, 0, size - head);
+            System.arraycopy(array, 0, newArray, size - head, tail + 1);
         }
         this.head = 0;
-        this.tail = this.size;
-        this.size = newArray.length;
+        this.tail = this.size - 1;
+        return newArray;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.size == 0;
     }
@@ -72,45 +87,51 @@ public class ArrayDeque<T> implements Deque {
         return array.length >= 16 && array.length / 4 > size;
     }
 
-    @Override
     public int size() {
         return this.size;
     }
 
-    @Override
     public void printDeque() {
+        int used = size;
         if (head < tail) {
-            for (int i = head; i <= tail; i++) {
+            for (int i = head; i <= tail && used > 0; i++) {
                 System.out.print(array[i] + " ");
+                used--;
             }
         } else {
-            for (int i = head; i < array.length; i++) {
+            for (int i = head; i < array.length && used > 0; i++) {
                 System.out.print(array[i] + " ");
+                used--;
             }
-            for (int i = 0; i <= tail; i++) {
+            for (int i = 0; i <= tail && used > 0; i++) {
                 System.out.print(array[i] + " ");
+                used--;
             }
         }
     }
 
-    @Override
-    public Object removeFirst() {
-        if (isEmpty()) return null;
+    public T removeFirst() {
+        if (isEmpty()) {
+            return null;
+        }
         T ret = array[head];
         head = (head + 1) % array.length;
         this.size--;
+
         if (isLowUtilization()) {
             this.array = arrayShrink(array);
         }
         return ret;
     }
 
-    @Override
-    public Object removeLast() {
-        if (isEmpty()) return null;
+    public T removeLast() {
+        if (isEmpty()) {
+            return null;
+        }
         T ret = array[tail];
         this.size--;
         tail = (tail - 1 + array.length) % array.length;
+
         if (isLowUtilization()) {
             this.array = arrayShrink(array);
         }
@@ -119,13 +140,15 @@ public class ArrayDeque<T> implements Deque {
 
     private T[] arrayShrink(T[] array) {
         T[] shrink = (T[]) new Object[array.length / 4];
-        revise((T[]) array, (T[]) shrink);
-        return shrink;
+        array = revise((T[]) array, (T[]) shrink);
+        return array;
     }
 
-    @Override
-    public Object get(int index) {
-        return array[index + head];
+    public T get(int index) {
+        if (index > this.size - 1) {
+            return null;
+        }
+        return array[(index + head) % array.length];
     }
 
 }

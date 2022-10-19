@@ -8,7 +8,7 @@
 
 public class LinkedListDeque<T> implements Deque {
 
-    public static class Node<T> {
+    private static class Node<T> {
         public T val;
         public Node<T> next;
         public Node<T> pre;
@@ -42,7 +42,9 @@ public class LinkedListDeque<T> implements Deque {
 
     @Override
     public T get(int index) {
-        if (index > this.size - 1) return null;
+        if (index > this.size - 1) {
+            return null;
+        }
         Node<T> cur = head.next;
         while (index-- > 0) {
             cur = cur.next;
@@ -56,7 +58,9 @@ public class LinkedListDeque<T> implements Deque {
     }
 
     public T getRecursiveHelper(int index, Node<T> node) {
-        if (index == 0) return node.val;
+        if (index == 0) {
+            return node.val;
+        }
         return getRecursiveHelper(index - 1, node.next);
     }
 
@@ -96,7 +100,9 @@ public class LinkedListDeque<T> implements Deque {
 
     @Override
     public T removeFirst() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         T ret = this.head.next.val;
         head.next.pre = null;
         head.next = head.next.next;
@@ -109,7 +115,9 @@ public class LinkedListDeque<T> implements Deque {
 
     @Override
     public T removeLast() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         T ret = tail.val;
         this.tail = tail.pre;
         this.tail.next.pre = null;
