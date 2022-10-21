@@ -128,16 +128,31 @@ public class IntList {
     }
 
 
+    /**
+     * That the function is destructive,
+     * i.e.
+     *      when it is done running,
+     *      the list pointed to by A has been tampered with
+     */
     public static IntList reverse(IntList list) {
-        if (list == null) {
-            return null;
+        /** this method is NOT destructive
+         * if (list == null) {
+         *             return null;
+         *         }
+         *         IntList newHead = null;
+         *         while (list != null) {
+         *             IntList temp = list.rest;
+         *             newHead = new IntList(list.first, newHead);
+         *             list = temp;
+         *         }
+         *         return newHead;
+         */
+        if (list == null || list.rest == null) {
+            return list;
         }
-        IntList newHead = null;
-        while (list != null) {
-            IntList temp = list.rest;
-            newHead = new IntList(list.first, newHead);
-            list = temp;
-        }
+        IntList newHead = reverse(list.rest);
+        list.rest.rest = list;
+        list.rest = null;
         return newHead;
     }
 
