@@ -17,8 +17,15 @@ public class TestPalindrome {
     }
 
     @Test
-    public void testisPalindrome() {
+    public void testIsPalindrome() {
         assertFalse(palindrome.isPalindrome("cat"));
         assertTrue(palindrome.isPalindrome("aba"));
+    }
+
+    @Test
+    public void testIsPalindromeComparator() {
+        CharacterComparator comparator = new OffByOne();
+        assertTrue(palindrome.isPalindrome("aba", comparator));
+        assertFalse(palindrome.isPalindrome("aab", comparator));
     }
 }
