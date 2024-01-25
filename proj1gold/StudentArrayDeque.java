@@ -44,7 +44,7 @@ public class StudentArrayDeque<T> {
             }
 
             ++this.c;
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
